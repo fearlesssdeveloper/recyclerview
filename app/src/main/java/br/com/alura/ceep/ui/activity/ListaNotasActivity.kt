@@ -1,5 +1,6 @@
 package br.com.alura.ceep.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,11 @@ class ListaNotasActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lista_notas)
         val todasNotas = notasDeExemplo()
         configuraRecyclerView(todasNotas)
+
+        lista_notas_insere_nota.setOnClickListener {
+            val iniciaFormularioNota = Intent(this, FormularioNotaActivity::class.java)
+            startActivity(iniciaFormularioNota)
+        }
     }
 
     private fun notasDeExemplo(): List<Nota> {
@@ -25,14 +31,7 @@ class ListaNotasActivity : AppCompatActivity() {
 
     private fun configuraRecyclerView(notas: List<Nota>) {
         configuraAdapter(notas)
-//        configuraLayoutManager()
-        //foi colocado diretamente no xml
     }
-
-//    private fun configuraLayoutManager() {
-//        val layoutManager = LinearLayoutManager(this)
-//        lista_notas_recyclerview.layoutManager = layoutManager
-//    }
 
     private fun configuraAdapter(notas: List<Nota>) {
         lista_notas_recyclerview.adapter = ListaNotasAdapter(this, notas)
