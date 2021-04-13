@@ -29,6 +29,10 @@ class ListaNotasAdapter(private val context: Context, private val notas: List<No
     class NotaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun vincula(nota: Nota) {
+            preencheCampo(nota)
+        }
+
+        private fun preencheCampo(nota: Nota) {
             itemView.item_nota_titulo.text = nota.titulo
             itemView.item_nota_descricao.text = nota.descricao
         }

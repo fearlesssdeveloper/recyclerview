@@ -13,15 +13,28 @@ class ListaNotasActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_notas)
+        val todasNotas = notasDeExemplo()
+        configuraRecyclerView(todasNotas)
+    }
 
-
+    private fun notasDeExemplo(): List<Nota> {
         val dao = NotaDAO()
-        for (i in 1..10000) {
-            dao.insere(Nota("Título $i", "Descrição $i"))
-        }
-        val todasNotas = dao.notas
-        lista_notas_recyclerview.adapter = ListaNotasAdapter(this, todasNotas)
-        val layoutManager = LinearLayoutManager(this)
-        lista_notas_recyclerview.layoutManager = layoutManager
+        dao.insere(Nota("Primeira notas", "Descrição pequena"), Nota("Segunda nota", "Segunda descrição é bem maior que a da primeira nota"))
+        return dao.notas
+    }
+
+    private fun configuraRecyclerView(notas: List<Nota>) {
+        configuraAdapter(notas)
+//        configuraLayoutManager()
+        //foi colocado diretamente no xml
+    }
+
+//    private fun configuraLayoutManager() {
+//        val layoutManager = LinearLayoutManager(this)
+//        lista_notas_recyclerview.layoutManager = layoutManager
+//    }
+
+    private fun configuraAdapter(notas: List<Nota>) {
+        lista_notas_recyclerview.adapter = ListaNotasAdapter(this, notas)
     }
 }
