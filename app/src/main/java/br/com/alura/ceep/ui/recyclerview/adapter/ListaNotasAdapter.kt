@@ -10,26 +10,16 @@ import br.com.alura.ceep.R
 import br.com.alura.ceep.model.Nota
 import kotlinx.android.synthetic.main.item_nota.view.*
 
-class ListaNotasAdapter(private val context: Context, private val notas: List<Nota>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ListaNotasAdapter(private val context: Context, private val notas: List<Nota>) : RecyclerView.Adapter<ListaNotasAdapter.NotaViewHolder>() {
 
-    companion object {
-        private var quantidadeViewCriada = 0
-        private var quantidadeBindView = 0
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        quantidadeViewCriada++
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotaViewHolder {
         val viewCriada = LayoutInflater.from(context).inflate(R.layout.item_nota, parent, false)
-        Log.i("recyclerView adapter", "viewHolder criado: $quantidadeViewCriada")
         return NotaViewHolder(viewCriada)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        quantidadeBindView++
+    override fun onBindViewHolder(holder: NotaViewHolder, position: Int) {
         val nota = notas[position]
-        holder.itemView.item_nota_titulo.text = nota.titulo
-        holder.itemView.item_nota_descricao.text = nota.descricao
-        Log.i("recyclerView adapter", "bind: posição $position quantidade $quantidadeBindView")
+        holder.vincula(nota)
     }
 
     override fun getItemCount(): Int {
@@ -38,5 +28,9 @@ class ListaNotasAdapter(private val context: Context, private val notas: List<No
 
     class NotaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        fun vincula(nota: Nota) {
+            itemView.item_nota_titulo.text = nota.titulo
+            itemView.item_nota_descricao.text = nota.descricao
+        }
     }
 }
