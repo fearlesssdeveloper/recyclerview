@@ -23,6 +23,13 @@ class ListaNotasActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        val dao = NotaDAO()
+        configuraRecyclerView(dao.notas)
+        super.onResume()
+
+    }
+
     private fun notasDeExemplo(): List<Nota> {
         val dao = NotaDAO()
         dao.insere(Nota("Primeira notas", "Descrição pequena"), Nota("Segunda nota", "Segunda descrição é bem maior que a da primeira nota"))
