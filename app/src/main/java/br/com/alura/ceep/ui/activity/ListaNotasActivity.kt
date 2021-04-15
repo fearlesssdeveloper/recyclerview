@@ -11,10 +11,15 @@ import br.com.alura.ceep.ui.recyclerview.adapter.ListaNotasAdapter
 import kotlinx.android.synthetic.main.activity_lista_notas.*
 
 class ListaNotasActivity : AppCompatActivity() {
+
+    private val dao = NotaDAO()
+    private lateinit var todasNotas: List<Nota>
+    private lateinit var adapter: ListaNotasAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_notas)
-        val todasNotas = notasDeExemplo()
+        todasNotas = notasDeExemplo()
         configuraRecyclerView(todasNotas)
 
         lista_notas_insere_nota.setOnClickListener {
@@ -23,15 +28,7 @@ class ListaNotasActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        val dao = NotaDAO()
-        configuraRecyclerView(dao.notas)
-        super.onResume()
-
-    }
-
     private fun notasDeExemplo(): List<Nota> {
-        val dao = NotaDAO()
         dao.insere(Nota("Primeira notas", "Descrição pequena"), Nota("Segunda nota", "Segunda descrição é bem maior que a da primeira nota"))
         return dao.notas
     }
@@ -41,6 +38,7 @@ class ListaNotasActivity : AppCompatActivity() {
     }
 
     private fun configuraAdapter(notas: List<Nota>) {
-        lista_notas_recyclerview.adapter = ListaNotasAdapter(this, notas)
+        adapter = ListaNotasAdapter(this, notas)
+        lista_notas_recyclerview.adapter = adapter
     }
 }
