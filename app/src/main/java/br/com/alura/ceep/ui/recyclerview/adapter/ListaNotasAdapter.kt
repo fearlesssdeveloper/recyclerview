@@ -12,7 +12,9 @@ import kotlinx.android.synthetic.main.item_nota.view.*
 
 class ListaNotasAdapter(private val context: Context, private val notas: List<Nota>) : RecyclerView.Adapter<ListaNotasAdapter.NotaViewHolder>() {
 
-    private var quantidadeViewHolder = 0
+    companion object {
+        private var quantidadeViewHolder = 0
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotaViewHolder {
         quantidadeViewHolder++

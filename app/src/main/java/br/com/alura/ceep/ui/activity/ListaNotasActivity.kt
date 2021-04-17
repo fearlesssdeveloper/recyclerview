@@ -28,6 +28,14 @@ class ListaNotasActivity : AppCompatActivity() {
         }
     }
 
+//    override fun onResume() {
+//        todasNotas = emptyList()
+//        todasNotas = dao.notas
+//        adapter.notifyDataSetChanged()
+//        super.onResume()
+//
+//    }
+
     private fun notasDeExemplo(): List<Nota> {
         dao.insere(Nota("Primeira notas", "Descrição pequena"), Nota("Segunda nota", "Segunda descrição é bem maior que a da primeira nota"))
         return dao.notas

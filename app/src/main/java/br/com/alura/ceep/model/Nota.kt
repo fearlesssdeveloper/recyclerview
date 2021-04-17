@@ -1,3 +1,7 @@
 package br.com.alura.ceep.model
 
-class Nota(val titulo: String, val descricao: String)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+class Nota(val titulo: String, val descricao: String) : Parcelable
