@@ -1,7 +1,6 @@
 package br.com.alura.ceep.ui.recyclerview.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import br.com.alura.ceep.R
 import br.com.alura.ceep.model.Nota
 import kotlinx.android.synthetic.main.item_nota.view.*
 
-class ListaNotasAdapter(private val context: Context, private val notas: List<Nota>) : RecyclerView.Adapter<ListaNotasAdapter.NotaViewHolder>() {
+class ListaNotasAdapter(private val context: Context, private val notas: List<Nota>, private val itemClickListener: OnItemClickListener) : RecyclerView.Adapter<ListaNotasAdapter.NotaViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotaViewHolder {
         val viewCriada = LayoutInflater.from(context).inflate(R.layout.item_nota, parent, false)
@@ -19,7 +18,7 @@ class ListaNotasAdapter(private val context: Context, private val notas: List<No
 
     override fun onBindViewHolder(holder: NotaViewHolder, position: Int) {
         val nota = notas[position]
-        holder.vincula(nota)
+        holder.vincula(nota, itemClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -28,8 +27,11 @@ class ListaNotasAdapter(private val context: Context, private val notas: List<No
 
     class NotaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun vincula(nota: Nota) {
+        fun vincula(nota: Nota, itemClickListener: OnItemClickListener) {
             preencheCampo(nota)
+            itemView.setOnClickListener {
+                itemClickListener.onItemClicked(nota)
+            }
         }
 
         private fun preencheCampo(nota: Nota) {
@@ -37,4 +39,8 @@ class ListaNotasAdapter(private val context: Context, private val notas: List<No
             itemView.item_nota_descricao.text = nota.descricao
         }
     }
+}
+
+interface OnItemClickListener {
+    fun onItemClicked(nota: Nota)
 }

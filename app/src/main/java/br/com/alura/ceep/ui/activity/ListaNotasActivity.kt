@@ -2,6 +2,8 @@ package br.com.alura.ceep.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.AdapterView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.com.alura.ceep.R
 import br.com.alura.ceep.dao.NotaDAO
@@ -10,9 +12,10 @@ import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_NOTA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_REQUISICAO_INSERE_NOTA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_RESULTADO_NOTA_CRIADA
 import br.com.alura.ceep.ui.recyclerview.adapter.ListaNotasAdapter
+import br.com.alura.ceep.ui.recyclerview.adapter.OnItemClickListener
 import kotlinx.android.synthetic.main.activity_lista_notas.*
 
-class ListaNotasActivity : AppCompatActivity() {
+class ListaNotasActivity : AppCompatActivity(), OnItemClickListener {
 
     private val dao = NotaDAO()
     private lateinit var adapter: ListaNotasAdapter
@@ -74,7 +77,11 @@ class ListaNotasActivity : AppCompatActivity() {
     }
 
     private fun configuraAdapter(notas: List<Nota>) {
-        adapter = ListaNotasAdapter(this, notas)
+        adapter = ListaNotasAdapter(this, notas, this)
         lista_notas_recyclerview.adapter = adapter
+    }
+
+    override fun onItemClicked(nota: Nota) {
+        Toast.makeText(this, "Nota clicada", Toast.LENGTH_SHORT).show()
     }
 }
