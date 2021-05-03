@@ -1,32 +1,37 @@
 package br.com.alura.ceep.ui.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import br.com.alura.ceep.R
 import br.com.alura.ceep.model.Nota
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_NOTA
+import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_POSICAO
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_RESULTADO_NOTA_CRIADA
+import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.POSICAO_INVALIDA
 import kotlinx.android.synthetic.main.activity_formulario_nota.*
-import kotlin.properties.Delegates
 
 class FormularioNotaActivity : AppCompatActivity() {
 
-    private var posicaoRecebida by Delegates.notNull<Int>()
+    private var posicaoRecebida = POSICAO_INVALIDA
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_nota)
         val dadosRecebidos = intent
-        if (dadosRecebidos.hasExtra(CHAVE_NOTA) && dadosRecebidos.hasExtra("posicao")) {
+        if (dadosRecebidos.hasExtra(CHAVE_NOTA)) {
             val notaRecebida = dadosRecebidos.getParcelableExtra<Nota>(CHAVE_NOTA)
-            posicaoRecebida = dadosRecebidos.getIntExtra("posicao", -1)
-            notaRecebida?.let {
-                formulario_nota_titulo.setText(it.titulo)
-                formulario_nota_descricao.setText(it.descricao)
-            }
+            posicaoRecebida = dadosRecebidos.getIntExtra(CHAVE_POSICAO, POSICAO_INVALIDA)
+            preencheCampos(notaRecebida)
+        }
+    }
+
+    private fun preencheCampos(nota: Nota?) {
+        nota?.let {
+            formulario_nota_titulo.setText(it.titulo)
+            formulario_nota_descricao.setText(it.descricao)
         }
     }
 
@@ -49,7 +54,7 @@ class FormularioNotaActivity : AppCompatActivity() {
     private fun retornaNota(nota: Nota) {
         val resultadoInsercao = Intent()
         resultadoInsercao.putExtra(CHAVE_NOTA, nota)
-        resultadoInsercao.putExtra("posicao", posicaoRecebida)
+        resultadoInsercao.putExtra(CHAVE_POSICAO, posicaoRecebida)
         setResult(CODIGO_RESULTADO_NOTA_CRIADA, resultadoInsercao)
     }
 
