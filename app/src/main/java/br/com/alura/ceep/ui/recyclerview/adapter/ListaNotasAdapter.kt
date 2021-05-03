@@ -9,7 +9,7 @@ import br.com.alura.ceep.R
 import br.com.alura.ceep.model.Nota
 import kotlinx.android.synthetic.main.item_nota.view.*
 
-class ListaNotasAdapter(private val context: Context, private val notas: List<Nota>, private val listener: (Nota) -> Unit) : RecyclerView.Adapter<ListaNotasAdapter.NotaViewHolder>() {
+class ListaNotasAdapter(private val context: Context, private val notas: List<Nota>, private val listener: (Nota, Int) -> Unit) : RecyclerView.Adapter<ListaNotasAdapter.NotaViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotaViewHolder {
         val viewCriada = LayoutInflater.from(context).inflate(R.layout.item_nota, parent, false)
@@ -27,10 +27,10 @@ class ListaNotasAdapter(private val context: Context, private val notas: List<No
 
     class NotaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun vincula(nota: Nota, listener: (Nota) -> Unit) {
+        fun vincula(nota: Nota, listener: (Nota, Int) -> Unit) {
             preencheCampo(nota)
             itemView.setOnClickListener {
-                listener(nota)
+                listener(nota, adapterPosition)
             }
         }
 

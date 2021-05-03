@@ -10,14 +10,19 @@ import br.com.alura.ceep.model.Nota
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_NOTA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_RESULTADO_NOTA_CRIADA
 import kotlinx.android.synthetic.main.activity_formulario_nota.*
+import kotlin.properties.Delegates
 
 class FormularioNotaActivity : AppCompatActivity() {
+
+    private var posicaoRecebida by Delegates.notNull<Int>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_nota)
         val dadosRecebidos = intent
-        if (dadosRecebidos.hasExtra(CHAVE_NOTA)) {
+        if (dadosRecebidos.hasExtra(CHAVE_NOTA) && dadosRecebidos.hasExtra("posicao")) {
             val notaRecebida = dadosRecebidos.getParcelableExtra<Nota>(CHAVE_NOTA)
+            posicaoRecebida = dadosRecebidos.getIntExtra("posicao", -1)
             notaRecebida?.let {
                 formulario_nota_titulo.setText(it.titulo)
                 formulario_nota_descricao.setText(it.descricao)
@@ -44,6 +49,7 @@ class FormularioNotaActivity : AppCompatActivity() {
     private fun retornaNota(nota: Nota) {
         val resultadoInsercao = Intent()
         resultadoInsercao.putExtra(CHAVE_NOTA, nota)
+        resultadoInsercao.putExtra("posicao", posicaoRecebida)
         setResult(CODIGO_RESULTADO_NOTA_CRIADA, resultadoInsercao)
     }
 

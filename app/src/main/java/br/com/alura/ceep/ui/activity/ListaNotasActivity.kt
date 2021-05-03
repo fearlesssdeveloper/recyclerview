@@ -51,9 +51,11 @@ class ListaNotasActivity : AppCompatActivity() {
             dao.insere(notaRecebida)
         }
 
-        if (requestCode == 2 && resultCode == CODIGO_RESULTADO_NOTA_CRIADA && temNota(data)) {
+        if (requestCode == 2 && resultCode == CODIGO_RESULTADO_NOTA_CRIADA && temNota(data) && data!!.hasExtra("posicao")) {
             val notaRecebida = data!!.getParcelableExtra<Nota>(CHAVE_NOTA)
-            Toast.makeText(this, notaRecebida!!.titulo, Toast.LENGTH_SHORT).show()
+            val posicaoRecebida = data.getIntExtra("posicao", -1)
+            dao.altera(notaRecebida!!, posicaoRecebida)
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -83,9 +85,10 @@ class ListaNotasActivity : AppCompatActivity() {
     }
 
     private fun configuraAdapter(notas: List<Nota>) {
-        adapter = ListaNotasAdapter(this, notas){
+        adapter = ListaNotasAdapter(this, notas) { nota, posicao ->
             val abreFormularioComNota = Intent(this, FormularioNotaActivity::class.java)
-            abreFormularioComNota.putExtra(CHAVE_NOTA, it)
+            abreFormularioComNota.putExtra(CHAVE_NOTA, nota)
+            abreFormularioComNota.putExtra("posicao", posicao)
             startActivityForResult(abreFormularioComNota, 2)
         }
         lista_notas_recyclerview.adapter = adapter
