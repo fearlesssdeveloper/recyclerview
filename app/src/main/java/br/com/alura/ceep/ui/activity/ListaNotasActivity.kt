@@ -38,6 +38,9 @@ class ListaNotasActivity : AppCompatActivity() {
     }
 
     private fun pegaTodasNotas(): List<Nota> {
+        for (i in 1..10) {
+            dao.insere(Nota("Titulo $i", "Descrição $i"))
+        }
         return dao.notas
     }
 
