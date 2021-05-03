@@ -1,5 +1,6 @@
 package br.com.alura.ceep.ui.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -11,7 +12,6 @@ import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_NOTA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_POSICAO
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_REQUISICAO_ALTERA_NOTA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_REQUISICAO_INSERE_NOTA
-import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_RESULTADO_NOTA_CRIADA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.POSICAO_INVALIDA
 import br.com.alura.ceep.ui.recyclerview.adapter.ListaNotasAdapter
 import kotlinx.android.synthetic.main.activity_lista_notas.*
@@ -50,18 +50,26 @@ class ListaNotasActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (ehResultadoInsereNota(requestCode, resultCode, data)) {
-            val notaRecebida = data!!.getParcelableExtra<Nota>(CHAVE_NOTA)!!
-            dao.insere(notaRecebida)
+        if (ehResultadoInsereNota(requestCode, data)) {
+            if (resultadoOk(resultCode)) {
+                val notaRecebida = data!!.getParcelableExtra<Nota>(CHAVE_NOTA)!!
+                dao.insere(notaRecebida)
+            }
         }
 
-        if (ehResultadoAlteraNota(requestCode, resultCode, data)) {
-            val notaRecebida = data!!.getParcelableExtra<Nota>(CHAVE_NOTA)
-            val posicaoRecebida = data.getIntExtra(CHAVE_POSICAO, POSICAO_INVALIDA)
-            if (ehPosicaoValida(posicaoRecebida)) {
-                altera(notaRecebida, posicaoRecebida)
-            } else {
-                Toast.makeText(this, "Ocorreu um problema na alteração da nota", Toast.LENGTH_SHORT).show()
+        if (ehResultadoAlteraNota(requestCode, data)) {
+            if (resultadoOk(resultCode)) {
+                val notaRecebida = data!!.getParcelableExtra<Nota>(CHAVE_NOTA)
+                val posicaoRecebida = data.getIntExtra(CHAVE_POSICAO, POSICAO_INVALIDA)
+                if (ehPosicaoValida(posicaoRecebida)) {
+                    altera(notaRecebida, posicaoRecebida)
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Ocorreu um problema na alteração da nota",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
@@ -75,29 +83,25 @@ class ListaNotasActivity : AppCompatActivity() {
 
     private fun ehResultadoAlteraNota(
         requestCode: Int,
-        resultCode: Int,
         data: Intent?
     ) =
-        ehCodigoRequisicaoAlteraNota(requestCode) && ehCodigoResultadoNotaCriada(resultCode) && temNota(
-            data
-        )
+        ehCodigoRequisicaoAlteraNota(requestCode) && temNota(data)
 
     private fun ehCodigoRequisicaoAlteraNota(requestCode: Int) =
         requestCode == CODIGO_REQUISICAO_ALTERA_NOTA
 
     private fun ehResultadoInsereNota(
         requestCode: Int,
-        resultCode: Int,
         data: Intent?
     ) =
-        ehCodigoRequisicaoInsereNota(requestCode) && ehCodigoResultadoNotaCriada(resultCode) && temNota(
+        ehCodigoRequisicaoInsereNota(requestCode) && temNota(
             data
         )
 
     private fun temNota(data: Intent?) = data!!.hasExtra(CHAVE_NOTA)
 
-    private fun ehCodigoResultadoNotaCriada(resultCode: Int) =
-        resultCode == CODIGO_RESULTADO_NOTA_CRIADA
+    private fun resultadoOk(resultCode: Int) =
+        resultCode == Activity.RESULT_OK
 
     private fun ehCodigoRequisicaoInsereNota(requestCode: Int) =
         requestCode == CODIGO_REQUISICAO_INSERE_NOTA

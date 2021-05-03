@@ -1,5 +1,6 @@
 package br.com.alura.ceep.ui.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -9,7 +10,6 @@ import br.com.alura.ceep.R
 import br.com.alura.ceep.model.Nota
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_NOTA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_POSICAO
-import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_RESULTADO_NOTA_CRIADA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.POSICAO_INVALIDA
 import kotlinx.android.synthetic.main.activity_formulario_nota.*
 
@@ -55,7 +55,7 @@ class FormularioNotaActivity : AppCompatActivity() {
         val resultadoInsercao = Intent()
         resultadoInsercao.putExtra(CHAVE_NOTA, nota)
         resultadoInsercao.putExtra(CHAVE_POSICAO, posicaoRecebida)
-        setResult(CODIGO_RESULTADO_NOTA_CRIADA, resultadoInsercao)
+        setResult(Activity.RESULT_OK, resultadoInsercao)
     }
 
     private fun criaNota(): Nota {
