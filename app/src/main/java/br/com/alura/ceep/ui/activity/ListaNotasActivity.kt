@@ -45,11 +45,16 @@ class ListaNotasActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (ehResultadoComNota(requestCode, resultCode, data)) {
             val notaRecebida = data!!.getParcelableExtra<Nota>(CHAVE_NOTA)!!
             dao.insere(notaRecebida)
         }
-        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 2 && resultCode == CODIGO_RESULTADO_NOTA_CRIADA && temNota(data)) {
+            val notaRecebida = data!!.getParcelableExtra<Nota>(CHAVE_NOTA)
+            Toast.makeText(this, notaRecebida!!.titulo, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun ehResultadoComNota(
@@ -79,7 +84,9 @@ class ListaNotasActivity : AppCompatActivity() {
 
     private fun configuraAdapter(notas: List<Nota>) {
         adapter = ListaNotasAdapter(this, notas){
-            Toast.makeText(this, "Nota clicada: ${it.titulo}", Toast.LENGTH_SHORT).show()
+            val abreFormularioComNota = Intent(this, FormularioNotaActivity::class.java)
+            abreFormularioComNota.putExtra(CHAVE_NOTA, it)
+            startActivityForResult(abreFormularioComNota, 2)
         }
         lista_notas_recyclerview.adapter = adapter
     }

@@ -15,6 +15,14 @@ class FormularioNotaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_nota)
+        val dadosRecebidos = intent
+        if (dadosRecebidos.hasExtra(CHAVE_NOTA)) {
+            val notaRecebida = dadosRecebidos.getParcelableExtra<Nota>(CHAVE_NOTA)
+            notaRecebida?.let {
+                formulario_nota_titulo.setText(it.titulo)
+                formulario_nota_descricao.setText(it.descricao)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
