@@ -2,8 +2,10 @@ package br.com.alura.ceep.ui.recyclerview.helper.callback
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import br.com.alura.ceep.dao.NotaDAO
+import br.com.alura.ceep.ui.recyclerview.adapter.ListaNotasAdapter
 
-class NotaItemTouchHelperCallback : ItemTouchHelper.Callback() {
+class NotaItemTouchHelperCallback(private val adapter: ListaNotasAdapter) : ItemTouchHelper.Callback() {
 
     override fun getMovementFlags(
         recyclerView: RecyclerView,
@@ -22,7 +24,9 @@ class NotaItemTouchHelperCallback : ItemTouchHelper.Callback() {
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
+        val posicaoNotaDeslizada = viewHolder.adapterPosition
+        NotaDAO().remove(posicaoNotaDeslizada)
+        adapter.notifyDataSetChanged()
     }
 
 }
