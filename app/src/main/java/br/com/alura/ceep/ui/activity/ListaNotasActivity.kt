@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import br.com.alura.ceep.R
 import br.com.alura.ceep.dao.NotaDAO
 import br.com.alura.ceep.model.Nota
@@ -14,6 +15,7 @@ import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_REQUI
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_REQUISICAO_INSERE_NOTA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.POSICAO_INVALIDA
 import br.com.alura.ceep.ui.recyclerview.adapter.ListaNotasAdapter
+import br.com.alura.ceep.ui.recyclerview.helper.callback.NotaItemTouchHelperCallback
 import kotlinx.android.synthetic.main.activity_lista_notas.*
 
 class ListaNotasActivity : AppCompatActivity() {
@@ -112,6 +114,8 @@ class ListaNotasActivity : AppCompatActivity() {
 
     private fun configuraRecyclerView(notas: List<Nota>) {
         configuraAdapter(notas)
+        val itemTouchHelper = ItemTouchHelper(NotaItemTouchHelperCallback())
+        itemTouchHelper.attachToRecyclerView(lista_notas_recyclerview)
     }
 
     private fun configuraAdapter(notas: List<Nota>) {
