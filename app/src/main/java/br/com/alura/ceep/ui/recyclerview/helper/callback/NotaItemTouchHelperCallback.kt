@@ -31,7 +31,7 @@ class NotaItemTouchHelperCallback(private val adapter: ListaNotasAdapter) : Item
 
     private fun trocaNotas(posicaoInicial: Int, posicaoFinal: Int) {
         dao.troca(posicaoInicial, posicaoFinal)
-        adapter.notifyDataSetChanged()
+        adapter.notifyItemMoved(posicaoInicial, posicaoFinal)
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -41,7 +41,7 @@ class NotaItemTouchHelperCallback(private val adapter: ListaNotasAdapter) : Item
 
     private fun removeNota(posicao: Int) {
         dao.remove(posicao)
-        adapter.notifyDataSetChanged()
+        adapter.notifyItemRemoved(posicao)
     }
 
 }
