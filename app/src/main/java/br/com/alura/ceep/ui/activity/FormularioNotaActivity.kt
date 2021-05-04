@@ -11,6 +11,8 @@ import br.com.alura.ceep.model.Nota
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_NOTA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_POSICAO
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.POSICAO_INVALIDA
+import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.TITULO_APPBAR_ALTERA
+import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.TITULO_APPBAR_INSERE
 import kotlinx.android.synthetic.main.activity_formulario_nota.*
 
 class FormularioNotaActivity : AppCompatActivity() {
@@ -20,8 +22,12 @@ class FormularioNotaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_nota)
+
+        title = TITULO_APPBAR_INSERE
+
         val dadosRecebidos = intent
         if (dadosRecebidos.hasExtra(CHAVE_NOTA)) {
+            title = TITULO_APPBAR_ALTERA
             val notaRecebida = dadosRecebidos.getParcelableExtra<Nota>(CHAVE_NOTA)
             posicaoRecebida = dadosRecebidos.getIntExtra(CHAVE_POSICAO, POSICAO_INVALIDA)
             preencheCampos(notaRecebida)

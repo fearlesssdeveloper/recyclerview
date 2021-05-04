@@ -14,6 +14,7 @@ import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CHAVE_POSICA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_REQUISICAO_ALTERA_NOTA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.CODIGO_REQUISICAO_INSERE_NOTA
 import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.POSICAO_INVALIDA
+import br.com.alura.ceep.ui.activity.ConstantesActivities.Companion.TITULO_APPBAR
 import br.com.alura.ceep.ui.recyclerview.adapter.ListaNotasAdapter
 import br.com.alura.ceep.ui.recyclerview.helper.callback.NotaItemTouchHelperCallback
 import kotlinx.android.synthetic.main.activity_lista_notas.*
@@ -26,6 +27,8 @@ class ListaNotasActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_notas)
+
+        title = TITULO_APPBAR
         val todasNotas = pegaTodasNotas()
         configuraRecyclerView(todasNotas)
         botaoInsereNota()
@@ -100,7 +103,7 @@ class ListaNotasActivity : AppCompatActivity() {
             data
         )
 
-    private fun temNota(data: Intent?) = data!!.hasExtra(CHAVE_NOTA)
+    private fun temNota(data: Intent?) = data != null && data.hasExtra(CHAVE_NOTA)
 
     private fun resultadoOk(resultCode: Int) =
         resultCode == Activity.RESULT_OK

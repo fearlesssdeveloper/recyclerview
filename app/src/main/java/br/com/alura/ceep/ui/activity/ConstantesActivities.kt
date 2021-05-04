@@ -8,5 +8,8 @@ interface ConstantesActivities {
         const val CODIGO_REQUISICAO_ALTERA_NOTA: Int = 2
         const val POSICAO_INVALIDA: Int = -1
         const val CHAVE_POSICAO: String = "posicao"
+        const val TITULO_APPBAR: String = "Notas"
+        const val TITULO_APPBAR_INSERE: String = "Inserir nota"
+        const val TITULO_APPBAR_ALTERA: String = "Altera nota"
     }
 }
