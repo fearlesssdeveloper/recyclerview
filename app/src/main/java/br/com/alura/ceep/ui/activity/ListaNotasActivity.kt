@@ -114,6 +114,10 @@ class ListaNotasActivity : AppCompatActivity() {
 
     private fun configuraRecyclerView(notas: List<Nota>) {
         configuraAdapter(notas)
+        configuraItemTouchHelper()
+    }
+
+    private fun configuraItemTouchHelper() {
         val itemTouchHelper = ItemTouchHelper(NotaItemTouchHelperCallback(adapter))
         itemTouchHelper.attachToRecyclerView(lista_notas_recyclerview)
     }
